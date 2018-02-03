@@ -1,0 +1,74 @@
+  
+  .container {
+    position: relative;
+    height: 5rem;
+    width: 100rem;
+    margin: 0 auto;
+    margin-top: 10rem;
+  }
+  
+  .shadow {
+    position: absolute;
+    background: rgba(12, 71, 146, 0.3);
+    height: 25%;
+    width: 100%;
+    top: 40%;
+  }
+  
+  .rectangle {
+    background:orangered;
+    border: solid black 2px;
+    position: absolute;
+    height: 12%;
+    width: 85%;
+    top: 28%;
+    left: 5%;
+  }
+  
+  .ball1, .ball2, .ball3, .ball4, .ball5 {
+    position: absolute;
+    height: 60%;
+    width: 3%;
+    top: 0%;
+    border-radius: 100%;
+    background: lightseagreen;
+    border: solid black 4px;
+    z-index: 3;
+  }
+  
+  .ball1 {
+    left: 4%;
+    animation: fill 1s forwards;
+  }
+  
+  .ball2 {
+    left: 25%;
+    animation: fill 1s forwards;
+    animation-delay: 2s;
+  }
+  
+  .ball3{
+    left: 45%;
+    animation: fill 1s forwards;
+    animation-delay: 4s;
+  }
+  
+  .ball4 {
+    left: 65%;
+    animation: fill 1s forwards;
+    animation-delay: 6s;
+  }
+  
+  .ball5 {
+    left: 90%;
+    animation: fill 1s forwards;
+    animation-delay: 8s;
+    background-color: red;
+  }
+  
+  /*
+  @keyframes fill {
+    from{background: white;}
+    to{background: grey;}
+  }
+  */

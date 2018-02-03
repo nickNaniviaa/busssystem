@@ -1,0 +1,85 @@
+
+html, body 
+{ 
+height: 100%; 
+width: 100%; 
+margin: 0; 
+}
+
+
+.header{
+    background-color:rgb(39, 38, 38);
+    width: 100%;
+    height: 30vh;
+    position: absolute;
+    border-bottom: 4px solid black;
+    border-radius: 0 0 15px 15px;
+}
+
+#title-line{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;    
+    text-align: center;
+    margin: auto;    
+    font-size: 10ch;
+    color: white;
+}
+
+.floatinglist-stations{
+    font-size: 5ch;
+    position: relative;
+    width: 100%;
+    color: white;
+    top: 14%
+}
+/*
+*/
+.floatinglist-stations p{
+    text-align: left;
+    position:absolute;
+    width: 15ch;
+    box-sizing: border-box;
+    top:0%;
+    margin:0;
+    padding:0;
+    -webkit-transform: rotate(-30deg);
+}
+
+.nextstop1{
+    left:11%;
+}
+
+.nextstop2{
+    left:28.5%;
+}
+
+.nextstop3{
+    left:45%;
+}
+
+.nextstop4{
+    left:62%;
+}
+
+.nextstop5{
+    left:82.5%;
+}
+
+/*
+
+ul{
+    text-align: center;
+    display: table;
+    width: 100%;
+    list-style: none;
+}
+ul li{
+    display: table-cell;
+    text-align: center;
+    padding-top: 3em;
+    margin: 5em 5%;
+}
+
+ul li{
+    display: inline;
+}
+*/

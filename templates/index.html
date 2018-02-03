@@ -1,0 +1,18 @@
+{% load render_bundle from webpack_loader %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<title>Bus-System</title>
+</head>
+<body>
+	
+	<div id="container">
+	</div>
+	{% render_bundle 'main' %}
+</body>
+</html>
