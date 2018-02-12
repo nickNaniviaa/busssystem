@@ -15,7 +15,6 @@ class Busline(models.Model):
 
 
 class Bus(models.Model):
-    bus_id = models.IntegerField()
     brand = models.CharField(max_length=20)
     model = models.CharField(max_length=30)
     license_plate = models.CharField(max_length=8)
