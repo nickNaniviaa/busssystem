@@ -19,3 +19,15 @@ class Bus(models.Model):
     model = models.CharField(max_length=30)
     license_plate = models.CharField(max_length=8)
     year = models.IntegerField()
+
+
+class Update(models.Model):
+    bus_id = models.IntegerField()
+    line_id = models.IntegerField()
+    bus_stop_id = models.IntegerField()
+    passengers_in = models.IntegerField()
+    passengers_out = models.IntegerField()
+    passengers_total = models.IntegerField()
+    expected_arrival = models.DateField()
+    arrival_time = models.DateField()
+    departure_time = models.DateField()

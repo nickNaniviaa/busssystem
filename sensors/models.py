@@ -3,20 +3,31 @@ from django.core.cache import cache
 # Create your models here.
 import random
 
-class GlobalPostioningSystem(object):
-    def __init__(self, params=''):
-        self.params = params
-        self.latitude = 1
-        self.longitude = 2
-    
-    def get_coordinates(self):
-        return (self.latitude,self.longitude)
-    
-    def check_within_range(self, latitude, longitude):
+class GlobalPostioningSystem(object): 
+    latitude = 1
+    longitude = 2
+
+    @classmethod
+    def get_coordinates(inst):
+        print(inst.latitude)
+        return (inst.latitude,inst.longitude)
+
+    @classmethod
+    def check_within_range(inst, bus_stop_id, line_index):
+        if cache.get('number_of_stops') != line_index:
+            print(bus_stop_id)            
+        else:
+            print('Ultimo bus - Calcul')
+
         return("Oi")
-    
-    def check_time_lastbustop(self):
+
+    @classmethod
+    def check_time_lastbustop():
         return("Calculando")
+
+    @classmethod
+    def setCache():
+        pass
 
 class PassengerCount(object):
     def __init__(self):
@@ -37,7 +48,7 @@ class PassengerCount(object):
             self.current = 0
             self.on = 0
         
-        update_cache()
+        self.update_cache()
 
         return(self.on, self.out, self.current)
 
