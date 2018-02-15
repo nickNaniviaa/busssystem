@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Busline, Bus
 from django.core.cache import cache
 
-from sensors.models import GlobalPostioningSystem as gps
+from .GpsSensor import *
 
 class BuslineSerializer(serializers.ModelSerializer):
     real_time_arrival = serializers.SerializerMethodField()
@@ -12,7 +12,7 @@ class BuslineSerializer(serializers.ModelSerializer):
                     'bus_stop_name','real_time_arrival')
 
     def get_real_time_arrival(self,obj):
-        gps.check_within_range(obj.bus_stop_id, obj.line_index)
+        check_within_range(obj.bus_stop_id, obj.line_index)
         return(1)
 
 
@@ -22,6 +22,7 @@ class BusSerializer(serializers.ModelSerializer):
     gps_position = serializers.SerializerMethodField()
     direction = serializers.SerializerMethodField()
     accumulator = serializers.SerializerMethodField()
+    passengers = serializers.SerializerMethodField()
 
     
     class Meta:
@@ -38,5 +39,9 @@ class BusSerializer(serializers.ModelSerializer):
         return(cache.get('line_accumulator'))
 
     def get_gps_position(self,obj):
-        return(cache.get('latitude'),cache.get('longitude'))
+        return(get_coordinates())
+    
+    def get_passengers(self,obj):
+        return(cache.get('current_passengers'))
+
     

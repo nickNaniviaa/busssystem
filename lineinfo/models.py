@@ -21,7 +21,7 @@ class Bus(models.Model):
     year = models.IntegerField()
 
 
-class Update(models.Model):
+class UpdBusFeed(models.Model):
     bus_id = models.IntegerField()
     line_id = models.IntegerField()
     bus_stop_id = models.IntegerField()

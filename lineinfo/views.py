@@ -11,17 +11,15 @@ from rest_framework import status
 from .models import Busline, Bus
 from .serializer import BuslineSerializer, BusSerializer
 
-from sensors.models import GlobalPostioningSystem as gps
-from sensors.models import PassengerCount as ps_count
-
+from .GpsSensor import *
 
 
 class BusLineList(APIView):
      
     def get(self, request):
         #always query get_coordinates
-        gps.get_coordinates()
-
+        print(seila())
+        print(cache.get("chablau"))
         queryset_all = Busline.objects.all()
         
         #query for the last
@@ -54,5 +52,4 @@ class BusList(APIView):
     def get(self, request):
         queryset = Bus.objects.filter(id=1)
         serializer = BusSerializer(queryset, many=True)
-        gps.get_coordinates()
         return Response(serializer.data)
