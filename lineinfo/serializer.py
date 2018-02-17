@@ -13,6 +13,7 @@ class BuslineSerializer(serializers.ModelSerializer):
                     'bus_stop_name','real_time_arrival','seconds_arrival')
 
     def get_real_time_arrival(self,obj):
+        #to reduce amount of queries to google - which are quite slow - this logic was implemented in order to obtain only when update_time is set to be True.
         if(cache.get('update_time')):
             arrival_time = calculate_duration_next_stop(obj.id,obj.line_index)
         else:
