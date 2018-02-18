@@ -23,6 +23,7 @@ class Bus(models.Model):
 
 class UpdBusFeed(models.Model):
     bus_id = models.IntegerField()
+    driver_id = models.IntegerField()
     line_id = models.IntegerField()
     bus_stop_id = models.IntegerField()
     passengers_in = models.IntegerField()

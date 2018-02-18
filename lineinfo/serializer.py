@@ -18,7 +18,9 @@ class BuslineSerializer(serializers.ModelSerializer):
             arrival_time = calculate_duration_next_stop(obj.id,obj.line_index)
         else:
             arrival_time = cache.get('timestop_time'+str(obj.line_index))
-        return(arrival_time)
+
+        formatted_arrival_time =str(arrival_time.minute)+'m:'+str(arrival_time.hour)+'h'
+        return(formatted_arrival_time)
 
     def get_seconds_arrival(self,obj):
         value_in_seconds = cache.get('timestop_seconds'+str(obj.line_index))
