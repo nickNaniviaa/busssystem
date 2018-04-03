@@ -7,12 +7,16 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}"/>
 	<title>Bus-System</title>
 </head>
 <body>
 	
-	<div id="container">
+	<div id="react_render">
 	</div>
 	{% render_bundle 'main' %}
+	<script type="text/javascript">
+		document.body.style.cursor = 'none';
+	</script>
 </body>
 </html>

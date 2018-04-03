@@ -1,25 +1,15 @@
-from django.shortcuts import render
 from django.core.cache import cache
-
-import itertools
 
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 
 from .models import Busline, Bus
 from .serializer import BuslineSerializer, BusSerializer
 
-from .GpsSensor import *
-
-
 class BusLineList(APIView):
      
     def get(self, request):
-        #always query get_coordinates
-        has_arrived()
-
         #query all objects to filter
         queryset_all = Busline.objects.all()
 

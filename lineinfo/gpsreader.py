@@ -1,12 +1,11 @@
-def readGps():
-    file= open(r"C:\\gps_info.txt","r")
+def read_gps():
+    file = open(r"C:\\gps_info.txt", "r")
 
-    x = file.readline()
-    latitude = float(x[x.index(":")+1:-1])#Discard \n
-    
-    x = file.readline()
-    longitude = float((x[x.index(":")+1:]))
-    
+    line_read = file.readline()
+    latitude = float(line_read[line_read.index(":")+1:-1])#Discard \n
+
+    line_read = file.readline()
+    longitude = float((line_read[line_read.index(":")+1:]))
+
     file.close()
-
-    return(latitude,longitude)
+    return(latitude, longitude)

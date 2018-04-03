@@ -17,8 +17,8 @@ def perform_meas():
 
         # check if it is not the first time the measurement was requested to be performed
         
-            out = out + cache.get('out_passengers')
-            on = on + cache.get('on_passengers')
+        #out = out + cache.get('out_passengers')
+        #on = on + cache.get('on_passengers')
 
         update_cache(on, current, current)
         return(on, out, current)
