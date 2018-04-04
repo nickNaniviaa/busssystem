@@ -1,7 +1,5 @@
 from django.db import models
-
 # Create your models here.
-
 
 class Busline(models.Model):
     line_id = models.IntegerField()

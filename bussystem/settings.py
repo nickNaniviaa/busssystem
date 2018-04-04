@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lineinfo',
+    'lineinfo.apps.Line_Config',
     'rest_framework',
     'webpack_loader',
     'corsheaders',

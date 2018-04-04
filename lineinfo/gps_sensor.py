@@ -2,11 +2,13 @@ from django.core.cache import cache
 
 from .gpsreader import read_gps
 
-class Gps(): # pylint: disable=too-few-public-methods   
+class Gps(): # pylint: disable=too-few-public-methods
+    def __init__(self):
+        self.__latitude, self.__longitude = self.get_coordinates()
 
     def get_coordinates(self):
-        latitude, longitude = read_gps()
-        return (latitude ,longitude)
+        self.__latitude, self.__longitude = read_gps()
+        return (self.__latitude ,self.__longitude)
 
 # def has_arrived():
 #     lat, lon = get_updated_coordinates()

@@ -15,7 +15,7 @@ class BuslineSerializer(serializers.ModelSerializer):
                     'bus_stop_name','real_time_arrival','seconds_arrival')
 
     def get_real_time_arrival(self,obj):
-        arrival_time = calculate_duration_next_stop(obj.id,obj.line_index)
+        arrival_time = calculate_duration_next_stop(obj.bus_stop_id,obj.line_index)
         formatted_arrival_time = str(arrival_time.hour)+'h:'+str(arrival_time.minute)+'m'
         return(formatted_arrival_time)
 
@@ -35,7 +35,7 @@ class BusSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Bus
-        exclude = ['brand','model','license_plate','year']
+        exclude = ['brand', 'model', 'license_plate', 'year']
 
     def get_line_info(self, obj):
         return(cache.get('num_linha'))
@@ -47,7 +47,7 @@ class BusSerializer(serializers.ModelSerializer):
         return(cache.get('line_accumulator'))
 
     def get_gps_position(self,obj):
-        return(get_updated_coordinates())
+        return(Gps().get_coordinates())
     
     def get_passengers(self,obj):
         return(cache.get('current_passengers'))
