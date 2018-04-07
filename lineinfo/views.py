@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from .models import Busline, Bus
 from .serializer import BuslineSerializer, BusSerializer
 
+from .helper import has_arrived
+
 class BusLineList(APIView):
      
     def get(self, request):
@@ -27,5 +29,6 @@ class BusLineList(APIView):
 class BusList(APIView):
     def get(self, request):
         queryset = Bus.objects.filter(id=1)
+        has_arrived()
         serializer = BusSerializer(queryset, many=True)
         return Response(serializer.data)

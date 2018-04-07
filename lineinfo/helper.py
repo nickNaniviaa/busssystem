@@ -81,13 +81,13 @@ def next_stop(line_id):
     return line_id == cache.get('line_accumulator')+1
 
 def gmaps_distance_query(origin, destination, departure_time, previous_path):
-    distance = gmaps.distance_matrix(origin,destination,departure_time = departure_time)
+    distance = gmaps.distance_matrix(origin,destination,departure_time=departure_time)
     value = distance["rows"][0]["elements"][0]["duration_in_traffic"]["value"] + previous_path
     return value
 
 def set_cache_parameters(value_in_seconds, time_in_hours, line_id, stop_id):
-    cache.set("timestop_seconds"+str(line_id), value= value_in_seconds + average_stop_time, timeout= None)
-    cache.set("timestop_hour"+str(line_id), value= time_in_hours, timeout= None)
+    cache.set("timestop_seconds"+str(line_id), value=value_in_seconds + average_stop_time, timeout=None)
+    cache.set("timestop_hour"+str(line_id), value=time_in_hours, timeout=None)
 
 
     if is_last_stop(stop_id):
@@ -96,5 +96,10 @@ def set_cache_parameters(value_in_seconds, time_in_hours, line_id, stop_id):
 def is_last_stop(stop_id):
     return cache.get("last_stop_id") == stop_id
 
+
+# Functions for checking the bus position and if it is the next or not.
+
+
+
 def has_arrived():
-    pass
+    print("chegamo cara")    

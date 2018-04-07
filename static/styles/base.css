@@ -7,6 +7,7 @@ html, body
 { 
     width: 100%; 
     height: 100%;
+    margin: 0;
 }
 
 body{
@@ -39,21 +40,22 @@ body{
 .floatinglist-stations{
     font-size: 5ch;
     position: relative;
-    width: 100%;
+    height: fit-content;
     color: white;
-    top: 14%
+    top: 12%
 }
-/*
-*/
+
 .floatinglist-stations p{
     text-align: left;
     position:absolute;
-    width: 15ch;
+    width: 17ch;
     box-sizing: border-box;
-    top:0%;
+
     margin:0;
     padding:0;
     -webkit-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
 }
 
 .nextstop1{
@@ -74,6 +76,55 @@ body{
 
 .nextstop5{
     left:82.5%;
+}
+
+
+.floatinglist-time{
+    font-size: 4ch;
+    position: relative;
+    width: 100%;
+    color: gold;
+    top: 44%
+}
+
+.floatinglist-time p{
+    text-align: left;
+    position:absolute;
+    width: 15ch;
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+.timestop1{
+    left:16%;
+}
+
+.timestop2{
+    left:34.5%;
+}
+
+.timestop3{
+    left:51%;
+}
+
+.timestop4{
+    left:68%;
+}
+
+.timestop5{
+    left:87.5%;
+}
+
+
+.clock{
+    position: fixed;
+    top: 0%;
+    right: 0%;
+    font-size: 8ch;
+    color: lightskyblue;
+    margin: 4px;
+
 }
 
 /*

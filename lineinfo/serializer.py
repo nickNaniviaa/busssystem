@@ -5,6 +5,8 @@ from .helper import calculate_duration_next_stop
 from .gps_sensor import Gps
 from .models import Busline, Bus
 
+import datetime
+
 
 class BuslineSerializer(serializers.ModelSerializer):
     real_time_arrival = serializers.SerializerMethodField()
@@ -16,8 +18,7 @@ class BuslineSerializer(serializers.ModelSerializer):
 
     def get_real_time_arrival(self,obj):
         arrival_time = calculate_duration_next_stop(obj.bus_stop_id,obj.line_index)
-        formatted_arrival_time = str(arrival_time.hour)+'h:'+str(arrival_time.minute)+'m'
-        return(formatted_arrival_time)
+        return(arrival_time.strftime("%H:%M"))
 
     def get_seconds_arrival(self,obj):
         value_in_seconds = cache.get('timestop_seconds'+str(obj.line_index))
