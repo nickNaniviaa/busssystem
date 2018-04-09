@@ -13,9 +13,9 @@ var imagesName = [cafeImg,
                   produtoMaquiagem,
                   vistaSuperior,
                   queensPoker,
-                ]
+                ];
 
-var intervalTime = 10
+var intervalTime = 10;
 
 export default class ImageRotator extends Component {
     constructor(props){

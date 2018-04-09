@@ -12,7 +12,7 @@ class Line_Config(AppConfig):
         cache.set('num_linha',int(params[2]), None)
         cache.set('direction',int(params[3]), None)
         cache.set('start_time',params[4], None)
-        cache.set('line_accumulator', 0, None)
+        cache.set('line_accumulator', 15, None)
 
         cache.set('current_passengers', 0, None)
         cache.set("on_passengers", 0, None)

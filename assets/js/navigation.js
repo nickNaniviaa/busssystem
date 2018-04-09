@@ -3,6 +3,11 @@ import React, { Component } from 'react'
 import $ from 'jquery';
 
 export default class Navigation extends Component {
+
+    componentWillReceiveProps(props){
+        this.forceUpdate();
+    }
+
     render() {
         var length = 0;
         var length = this.props.data.length;
@@ -18,10 +23,11 @@ export default class Navigation extends Component {
             var number_iterations = length > 5 ? 5 : length
            
             for(var i = number_iterations; i > 0; i--){
-                var name_stop = "nextstop"+(i);
-                var time_stop = "timestop"+(i);
+
                 if (i == number_iterations){
                     var dot = "ball"+(5);
+                    var name_stop = "nextstop"+(5);
+                    var time_stop = "timestop"+(5);
                     
                     station_name_elements.push(<p className={name_stop} key={i}>{lista_array[length-1].bus_stop_name}</p>);
                     station_time_elements.push(<p className={time_stop} key={i}>{lista_array[length-1].real_time_arrival}</p>);
@@ -29,6 +35,8 @@ export default class Navigation extends Component {
                 }
                 else{
                     var dot = "ball"+(i);
+                    var name_stop = "nextstop"+(i);
+                    var time_stop = "timestop"+(i);
                     
                     station_name_elements.push(<p className={name_stop} key={i}>{lista_array[i-1].bus_stop_name}</p>);
                     station_time_elements.push(<p className={time_stop} key={i}>{lista_array[i-1].real_time_arrival}</p>);
