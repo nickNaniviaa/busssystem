@@ -1,11 +1,12 @@
-from rest_framework import serializers
+import datetime
+
 from django.core.cache import cache
+from rest_framework import serializers
 
 from .helper import calculate_duration_next_stop
 from .gps_sensor import Gps
 from .models import Busline, Bus
 
-import datetime
 
 
 class BuslineSerializer(serializers.ModelSerializer):
@@ -39,18 +40,16 @@ class BusSerializer(serializers.ModelSerializer):
         exclude = ['brand', 'model', 'license_plate', 'year']
 
     def get_line_info(self, obj):
-        return(cache.get('num_linha'))
+        return cache.get('num_linha')
 
     def get_direction(self, obj):
-        return(cache.get('direction'))
-    
+        return cache.get('direction')
+        
     def get_accumulator(self, obj):
-        return(cache.get('line_accumulator'))
+        return cache.get('line_accumulator')
 
-    def get_gps_position(self,obj):
-        return(Gps().get_coordinates())
+    def get_gps_position(self, obj):
+        return Gps().get_coordinates()
     
-    def get_passengers(self,obj):
-        return(cache.get('current_passengers'))
-
-    
+    def get_passengers(self, obj):
+        return cache.get('current_passengers')

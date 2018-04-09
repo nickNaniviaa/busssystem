@@ -20,7 +20,7 @@ class BusLineList(APIView):
                                 direction = cache.get('direction'),
                                 line_index__gt = cache.get('line_accumulator'))
                                 
-        queryset = queryset_filtered
+        queryset = queryset_filtered.order_by('line_index')
         serializer = BuslineSerializer(queryset, many=True)
 
         return Response(serializer.data)

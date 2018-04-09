@@ -21,6 +21,7 @@ class Line_Config(AppConfig):
         cache.set('average_stop_time', 10, None)
         cache.set('update_time', True, None)
         cache.set('arrival_flag', False, None)
+        cache.set('end', False, None)
 
 
         queryset_filter = Busline.objects.filter(line_id = params[2],
@@ -32,6 +33,5 @@ class Line_Config(AppConfig):
 
         cache.set("number_of_stops", last_line_index, None)
         cache.set("last_stop_id", last_stop_id, None)
-
-
+        
         print("Setting Cache Done!")

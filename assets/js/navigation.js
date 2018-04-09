@@ -13,6 +13,8 @@ export default class Navigation extends Component {
             var station_time_elements = [];
             var station_dots_elements = [];
 
+            var line_name = lista_array[0].line_id + ' - ' + lista_array[0].line_name
+
             var number_iterations = length > 5 ? 5 : length
            
             for(var i = number_iterations; i > 0; i--){
@@ -39,7 +41,7 @@ export default class Navigation extends Component {
 
         return (
             <div className="header">
-                <h1 id="title-line">Guadalajara</h1>
+                <h1 id="title-line">{line_name}</h1>
                 <div className="floatinglist-stations">
                     {station_name_elements}
                 </div>

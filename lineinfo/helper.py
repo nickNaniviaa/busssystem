@@ -1,11 +1,11 @@
 from django.db import models
 from django.core.cache import cache
-from .models import Busline, Bus
+from .models import Busline, Bus, UpdBusFeed
 import googlemaps
 import datetime, schedule, time
-from geopy.distance import vincenty
+from geopy.distance import great_circle
 from .gps_sensor import Gps
-
+from .passenger_count import perform_meas
 
 #gmaps and AUTH Key
 gmaps = googlemaps.Client(key='AIzaSyAGmmSFGnaJGgxm8qz1NP68IdKLMy8P2yU')
@@ -89,17 +89,122 @@ def set_cache_parameters(value_in_seconds, time_in_hours, line_id, stop_id):
     cache.set("timestop_seconds"+str(line_id), value=value_in_seconds + average_stop_time, timeout=None)
     cache.set("timestop_hour"+str(line_id), value=time_in_hours, timeout=None)
 
-
     if is_last_stop(stop_id):
         cache.set("update_time", False, None)
 
 def is_last_stop(stop_id):
     return cache.get("last_stop_id") == stop_id
 
+def next_stop_position():
+    next_stop_index = cache.get('line_accumulator')+1    
+    queryset_all = Busline.objects.all()
+    queryset_filter = queryset_all.filter(line_id = cache.get('num_linha'),
+                                            direction = cache.get('direction'),
+                                            line_index = next_stop_index )
+    
 
-# Functions for checking the bus position and if it is the next or not.
+    latitude = queryset_filter.values('latitude')[0]['latitude']
+    longitude = queryset_filter.values('longitude')[0]['longitude']
+    stop_id = queryset_filter.values('bus_stop_id')[0]['bus_stop_id']
 
+    cache.set("next_stop_id", stop_id, None)
 
+    return latitude, longitude
+
+def calculate_distance_to_next_stop():
+    latitude, longitude = gps.get_coordinates()
+    stop_latitude, stop_longitude = next_stop_position()
+    distance = great_circle((latitude, longitude), (stop_latitude, stop_longitude)).meters
+
+    return distance
 
 def has_arrived():
-    print("chegamo cara")    
+    if not cache.get('end'): 
+        distance = calculate_distance_to_next_stop()
+        print(f'A distância é: {distance}')
+
+        status = cache.get('arrival_flag')
+
+        if distance < 20 and not status:
+            print("Chegou na Estação")
+            cache.set('arrival_flag', True, None)
+            arrival_time = datetime.datetime.now()
+            cache.set('arrival_time', arrival_time, None)
+
+            if last_stop():
+                finish_bus_route(arrival_time)
+
+            #play sound
+        elif distance > 20 and status:
+            print("Saiu da Estação")
+            cache.set('arrival_flag', False, None)
+            departure_time = datetime.datetime.now()
+            update_bus_route(departure_time)
+            cache.set('update_time', True, None)
+
+            #play proxima estação
+
+
+def last_stop():
+    return cache.get('next_stop_id') == cache.get('last_stop_id')
+
+def update_bus_route(departure_time):
+    bus_stop = cache.get('next_stop_id')
+    cache.incr('line_accumulator', 1)
+    print("Bus {} Bus Stop - with inc:".format(bus_stop, cache.get('line_accumulator')))
+    
+    passengers_in, passengers_out, current_passengers = perform_meas()
+
+    arrival_time = cache.get('arrival_time')
+    departure_time = departure_time
+
+    save_new_entry(bus_stop, passengers_in, passengers_out, current_passengers,
+                   arrival_time, departure_time )
+
+def finish_bus_route(arrival_time):
+    print("Last Bus Stop")
+    bus_stop = cache.get('last_stop_id')
+    
+    cache.set('end', True, None)
+    cache.incr('line_accumulator', 1)
+
+    passengers_out = cache.get('current_passengers')
+    passengers_in = 0
+    current_passengers = 0
+    cache.set('current_passengers', 0, None)
+    
+    arrival_time = arrival_time
+    departure_time = arrival_time
+    
+    save_new_entry(bus_stop, passengers_in, passengers_out, current_passengers,
+                   arrival_time, departure_time )
+
+
+    
+
+def get_bus_parameters():
+    line_accumulator = cache.get('line_accumulator')
+    bus_id = 1 #Yes, Hardcoded
+    driver_id = cache.get('driver_id')
+    num_linha = cache.get('num_linha')
+    expected_arrival = cache.get('timestop_hour'+str(line_accumulator), datetime.datetime.now())
+    cache.set('timestop_hour'+str(line_accumulator), None) #Clear Cache
+
+    return bus_id, driver_id, num_linha, expected_arrival
+
+def save_new_entry(stop_id, passengers_in,
+                   passengers_out, current_passengers,
+                   arrival_time, departure_time):
+    bus_id, driver_id, num_linha, expected_arrival = get_bus_parameters()
+
+    new_entry = UpdBusFeed(bus_id = bus_id,
+                           driver_id = driver_id,
+                           line_id = num_linha,
+                           bus_stop_id = stop_id,
+                           passengers_in = passengers_in,
+                           passengers_out = passengers_out,
+                           passengers_total = current_passengers,
+                           expected_arrival = expected_arrival,
+                           arrival_time = arrival_time,
+                           departure_time = departure_time)
+    new_entry.save()
