@@ -6,6 +6,7 @@ import datetime, schedule, time
 from geopy.distance import great_circle
 from .gps_sensor import Gps
 from .passenger_count import perform_meas
+from .helper_song import play_next, add_current_station_queue, add_next_station_queue
 
 #gmaps and AUTH Key
 gmaps = googlemaps.Client(key='AIzaSyAGmmSFGnaJGgxm8qz1NP68IdKLMy8P2yU')
@@ -105,11 +106,22 @@ def next_stop_position():
 
     latitude = queryset_filter.values('latitude')[0]['latitude']
     longitude = queryset_filter.values('longitude')[0]['longitude']
-    stop_id = queryset_filter.values('bus_stop_id')[0]['bus_stop_id']
-
-    cache.set("next_stop_id", stop_id, None)
 
     return latitude, longitude
+
+
+def next_stop_id():
+    next_stop_index = cache.get('line_accumulator')+1    
+    queryset_all = Busline.objects.all()
+    queryset_filter = queryset_all.filter(line_id = cache.get('num_linha'),
+                                            direction = cache.get('direction'),
+                                            line_index = next_stop_index )
+    
+
+    stop_id = queryset_filter.values('bus_stop_id')[0]['bus_stop_id']
+    cache.set("next_stop_id", stop_id, None)
+
+    return stop_id
 
 def calculate_distance_to_next_stop():
     latitude, longitude = gps.get_coordinates()
@@ -125,16 +137,19 @@ def has_arrived():
 
         status = cache.get('arrival_flag')
 
+        next_bus_stop_id = next_stop_id()
+
         if distance < 20 and not status:
             print("Chegou na Estação")
             cache.set('arrival_flag', True, None)
             arrival_time = datetime.datetime.now()
             cache.set('arrival_time', arrival_time, None)
+            
+            add_current_station_queue(next_bus_stop_id)
 
             if last_stop():
                 finish_bus_route(arrival_time)
 
-            #play sound
         elif distance > 20 and status:
             print("Saiu da Estação")
             cache.set('arrival_flag', False, None)
@@ -143,7 +158,10 @@ def has_arrived():
             cache.set('update_time', True, None)
 
             #play proxima estação
+            next_bus_stop_id = next_stop_id()
+            add_next_station_queue(next_bus_stop_id)
 
+        play_next()
 
 def last_stop():
     return cache.get('next_stop_id') == cache.get('last_stop_id')

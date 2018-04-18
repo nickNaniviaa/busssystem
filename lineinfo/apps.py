@@ -1,6 +1,8 @@
 from django.apps import AppConfig
 from django.core.cache import cache
 from .cachesetup import readparams
+
+from collections import deque
 class Line_Config(AppConfig):
     name = "lineinfo"
     def ready(self):
@@ -12,7 +14,7 @@ class Line_Config(AppConfig):
         cache.set('num_linha',int(params[2]), None)
         cache.set('direction',int(params[3]), None)
         cache.set('start_time',params[4], None)
-        cache.set('line_accumulator', 15, None)
+        cache.set('line_accumulator', 0, None)
 
         cache.set('current_passengers', 0, None)
         cache.set("on_passengers", 0, None)
@@ -33,5 +35,7 @@ class Line_Config(AppConfig):
 
         cache.set("number_of_stops", last_line_index, None)
         cache.set("last_stop_id", last_stop_id, None)
-        
+
+        cache.set("station_queue", deque(), None)
+
         print("Setting Cache Done!")
