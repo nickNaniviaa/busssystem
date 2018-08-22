@@ -41,14 +41,14 @@ I didn't have much time (2 months while working full time) to develop a quite bi
 ## Setup:
 ==============================
 
-*npm install (requires node)
+npm install (requires node)
 
-*pip install -r requirements.txt (requires python/pip)
+pip install -r requirements.txt (requires python/pip)
 
-*./node_modules/.bin/webpack --config webpack.config.js OR the created webpack script: "npm run build"
+./node_modules/.bin/webpack --config webpack.config.js OR the created webpack script: "npm run build"
 
-*python manage.py runserver (runs the server)
+python manage.py runserver (runs the server)
 
-*you will need to setup the coordinates and auxiliary .txt files by yourself.
+you will need to setup the coordinates and auxiliary .txt files by yourself.
 
 ==============================
